@@ -391,6 +391,9 @@ namespace Embeddinator.ObjC
 				// Filter
 				foreach (var info in build_infos)
 					info.Architectures = info.Architectures.Where ((v) => ABIs.Contains (v)).ToArray ();
+
+				// Filter out build info if there is no arch configured
+				build_infos = build_infos.Where((b) => (b.Architectures.Any())).ToArray();
 			}
 
 			var lipo_files = new List<string> ();
@@ -792,6 +795,13 @@ namespace Embeddinator.ObjC
 									else {
 										Utils.FileCopyIfExists (Path.Combine (cachedir, "32", "registrar.h"), Path.Combine (headers, "registrar-arm32.h"));
 										Utils.FileCopyIfExists (Path.Combine (cachedir, "64", "registrar.h"), Path.Combine (headers, "registrar-arm64.h"));
+										if (ABIs.Count == 1) {
+											// seems that if there is one ABI built the registrar is written directly to cached dir
+											Utils.FileCopyIfExists(Path.Combine(cachedir, "registrar.h"),
+												ABIs[0] == "arm64"
+													? Path.Combine(headers, "registrar-arm64.h")
+													: Path.Combine(headers, "registrar-arm32.h"));
+										}
 									}
 									break;
 								case Platform.tvOS:
