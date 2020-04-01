@@ -760,6 +760,7 @@ namespace Embeddinator.ObjC
 							if (Debug)
 								mtouch.Append ("--debug ");
 							mtouch.Append ($"--assembly-build-target=@all=framework={LibraryName}.framework ");
+              mtouch.Append ($"--optimize=experimental-xforms-product-type ");
 							mtouch.Append ($"--target-framework {GetTargetFramework ()} ");
 							mtouch.Append ($"\"--gcc_flags=-force_load {Path.GetFullPath (sdk_output_file)}\" ");
 							if (NativeException)
