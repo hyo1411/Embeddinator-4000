@@ -790,18 +790,28 @@ namespace Embeddinator.ObjC
 							switch (Platform) {
 								case Platform.iOS:
 									if (build_info.IsSimulator) {
-										Utils.FileCopyIfExists (Path.Combine (cachedir, "32", "registrar.h"), Path.Combine (headers, "registrar-i386.h"));
-										Utils.FileCopyIfExists (Path.Combine (cachedir, "64", "registrar.h"), Path.Combine (headers, "registrar-x86_64.h"));
-									}
-									else {
-										Utils.FileCopyIfExists (Path.Combine (cachedir, "32", "registrar.h"), Path.Combine (headers, "registrar-arm32.h"));
-										Utils.FileCopyIfExists (Path.Combine (cachedir, "64", "registrar.h"), Path.Combine (headers, "registrar-arm64.h"));
-										if (ABIs.Count == 1) {
-											// seems that if there is one ABI built the registrar is written directly to cached dir
-											Utils.FileCopyIfExists(Path.Combine(cachedir, "registrar.h"),
-												ABIs[0] == "arm64"
-													? Path.Combine(headers, "registrar-arm64.h")
-													: Path.Combine(headers, "registrar-arm32.h"));
+										Utils.FileCopyIfExists(Path.Combine(cachedir, "32", "registrar.h"), Path.Combine(headers, "registrar-i386.h"));
+										Utils.FileCopyIfExists(Path.Combine(cachedir, "64", "registrar.h"), Path.Combine(headers, "registrar-x86_64.h"));
+										if (ABIs.Count == 2) {
+											string filePath = string.Empty;
+											if (ABIs.Contains("x86_64")) filePath = Path.Combine(headers, "registrar-x86_64.h");
+											if (ABIs.Contains("i386")) filePath = Path.Combine(headers, "registrar-i386.h");
+											if (!string.IsNullOrEmpty(filePath)) {
+												// seems that if there is one ABI built the registrar is written directly to cached dir
+												Utils.FileCopyIfExists(Path.Combine(cachedir, "registrar.h"), filePath);
+											}
+										}
+									} else {
+										Utils.FileCopyIfExists(Path.Combine(cachedir, "32", "registrar.h"), Path.Combine(headers, "registrar-arm32.h"));
+										Utils.FileCopyIfExists(Path.Combine(cachedir, "64", "registrar.h"), Path.Combine(headers, "registrar-arm64.h"));
+										if (ABIs.Count == 2) {
+											string filePath = string.Empty;
+											if (ABIs.Contains("arm64")) filePath = Path.Combine(headers, "registrar-arm64.h");
+											if (ABIs.Contains("arm32")) filePath = Path.Combine(headers, "registrar-arm32.h");
+											if (!string.IsNullOrEmpty(filePath)) {
+												// seems that if there is one ABI built the registrar is written directly to cached dir
+												Utils.FileCopyIfExists(Path.Combine(cachedir, "registrar.h"), filePath);
+											}
 										}
 									}
 									break;
