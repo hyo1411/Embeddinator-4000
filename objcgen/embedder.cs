@@ -792,7 +792,7 @@ namespace Embeddinator.ObjC
 									if (build_info.IsSimulator) {
 										Utils.FileCopyIfExists(Path.Combine(cachedir, "32", "registrar.h"), Path.Combine(headers, "registrar-i386.h"));
 										Utils.FileCopyIfExists(Path.Combine(cachedir, "64", "registrar.h"), Path.Combine(headers, "registrar-x86_64.h"));
-										if (ABIs.Count == 2) {
+										if (ABIs.Count <= 2) {
 											string filePath = string.Empty;
 											if (ABIs.Contains("x86_64")) filePath = Path.Combine(headers, "registrar-x86_64.h");
 											if (ABIs.Contains("i386")) filePath = Path.Combine(headers, "registrar-i386.h");
@@ -804,7 +804,7 @@ namespace Embeddinator.ObjC
 									} else {
 										Utils.FileCopyIfExists(Path.Combine(cachedir, "32", "registrar.h"), Path.Combine(headers, "registrar-arm32.h"));
 										Utils.FileCopyIfExists(Path.Combine(cachedir, "64", "registrar.h"), Path.Combine(headers, "registrar-arm64.h"));
-										if (ABIs.Count == 2) {
+										if (ABIs.Count <= 2) {
 											string filePath = string.Empty;
 											if (ABIs.Contains("arm64")) filePath = Path.Combine(headers, "registrar-arm64.h");
 											if (ABIs.Contains("arm32")) filePath = Path.Combine(headers, "registrar-arm32.h");
