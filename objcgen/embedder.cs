@@ -486,7 +486,12 @@ namespace Embeddinator.ObjC
 						case Platform.iOS:
 						case Platform.tvOS:
 						case Platform.watchOS:
-							common_options.Append ($"-I/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/SDKs/{build_info.XamariniOSSDK}/include ");
+							Version xamarinIosVersion = SystemCheck.ReadXamariniOSVersion();
+							string param = $"-I/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/SDKs/{build_info.XamariniOSSDK}/usr/include ";
+							if (xamarinIosVersion.CompareTo(new Version(14, 3)) > 0) {
+								param = $"-I/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/SDKs/{build_info.XamariniOSSDK}/include ";
+							}
+							common_options.Append (param);
 							common_options.Append ("-DXAMARIN_IOS ");
 							break;
 						default:

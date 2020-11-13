@@ -69,9 +69,14 @@ namespace Embeddinator.ObjC
 			Console.WriteLine ($"Found {product} {version} (between {min_version} and {max_version})");
 		}
 
+		public static Version ReadXamariniOSVersion () {
+			return ReadVersionInfo("/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/Version");
+		}
+
+
 		public static void VerifyXamariniOS ()
 		{
-			VerifyVersion ("XI", "Xamarin.iOS", ReadVersionInfo ("/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/Version"));
+			VerifyVersion ("XI", "Xamarin.iOS", ReadXamariniOSVersion());
 		}
 
 		public static void VerifyXamarinMac ()
