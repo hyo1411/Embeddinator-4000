@@ -486,7 +486,7 @@ namespace Embeddinator.ObjC
 						case Platform.iOS:
 						case Platform.tvOS:
 						case Platform.watchOS:
-							common_options.Append ($"-I/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/SDKs/{build_info.XamariniOSSDK}/usr/include ");
+							common_options.Append ($"-I/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/SDKs/{build_info.XamariniOSSDK}/include ");
 							common_options.Append ("-DXAMARIN_IOS ");
 							break;
 						default:
